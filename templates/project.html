@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Khám phá dự án{% endblock %}
+{% block avartar %}{{ profile.get_avatar }}{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/project.css' %}">{% endblock %}
+{% block content %}
+<div class='container' style="margin-bottom: 100px;">
+    <br />
+    <!-- projects section -->
+    <div class="row my-5">
+        <h1 class="text-center mid-text col-6-centered">Tất cả các dự án</h1>
+    </div>
+    <br />
+    <div class="row"></div>
+    {% for project in projects %}
+    <div class="col-lg-4">
+        <img class="thumbnail" src="{{ project.images_of_project.all.0.image.url }}"
+            style="width:100%; object-fit: cover;">
+        <div class="box-element project">
+            <h6><strong><a href="{% url 'project-detail' project.pk %}">{{ project.name }}</a></strong></h6>
+            <hr>
+            <p><small>Bởi: {{ project.user }}</small></p>
+        </div>
+    </div>
+    {% endfor %}
+    <!-- projects section -->
+    <!-- pagination section -->
+    <nav aria-label="Page navigation example" style="margin-top: 40px;">
+        <ul class="pagination justify-content-center">
+            {% if projects.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'project' %}?page={{projects.previous_page_number}}">Quay lại</a>
+            </li>
+            {% endif %} {% for i in p %} {% if i != 0 %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'project' %}?page={{i}}">{{i}}</a>
+            </li>
+            {% endif %} {% endfor %} {% if projects.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'project' %}?page={{projects.next_page_number}}">Tiếp theo</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    <!-- pagination section -->
+</div>
+</div>
+{% endblock %}

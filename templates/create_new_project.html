@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block active3 %}active{% endblock %}
+{% block title %}Tạo dự án mới{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/create_new_project.css' %}">{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="block-css-form">
+    <div class="container">
+        <div class="col-8" style="margin-left: 15%;">
+            <div class="card card-body bg-white border-light shadow-sm mb-4">
+                <h1>Tạo thông tin cho dự án của bạn</h1>
+                <hr class="mt-0 mb-4">
+                <div class="col-md-offset-10 col-md-12">
+                    {% if user.username %}
+                    <form enctype="multipart/form-data" method="POST" action="">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.name|as_crispy_field }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.category|as_crispy_field }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.description|as_crispy_field }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.body|as_crispy_field }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.fund|as_crispy_field }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ image.image|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.video|as_crispy_field }}
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Đăng ký dự án</button>
+                    </form>
+                    {% else %}
+                    <p><a class="log-in" href="{% url 'login' %}" style="text-decoration: none;">Đăng nhập</a> để được
+                        đăng kí dự án mới.
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

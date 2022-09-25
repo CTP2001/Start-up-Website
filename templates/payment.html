@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Hỗ trợ dự án{% endblock %}
+{% block content %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/payment.css' %}">{% endblock %}
+{% load crispy_forms_tags %}
+
+<div class="container" style="margin-top: 50px;">
+    <!-- pledge section -->
+    <div style="width: 47%;float:left;">
+        <div id="right-wrapper">
+
+            <h3 style="margin-top: 150px; color: #10a195;">Tóm tắt cam kết</h3>
+
+            <p>Chúng tôi sẽ không tính phí bạn vào lúc này. Nếu dự án đạt được mục tiêu tài trợ, phương thức thanh toán
+                của bạn sẽ bị tính phí khi chiến dịch kết thúc.
+            </p>
+            <hr>
+            <p>Khoản đóng góp của bạn là một cách để hỗ trợ dự án nhưng không đảm bảo rằng bạn sẽ nhận được đặc quyền.
+                Bất kỳ khoản hoàn trả nào sau ngày này là trách nhiệm của chủ sở hữu chiến dịch, theo quyết định của họ.
+            </p>
+        </div>
+    </div>
+    <!-- pledge section -->
+    <!-- payment section -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <div style="background-color: #16d88775;width: 50%;float: left; margin-left: 3%; border-radius: 1%">
+        <div class="container">
+            <div id="left-wrapper">
+                <img style="width: 200px; height: 200px; border-radius: 50%; float: left;margin-top: 20px; margin-right: 20px;object-fit: cover;"
+                    src="{{ project.images_of_project.all.0.image.url }}">
+                <div id="left-wrapper-header" style="padding-top: 80px;">
+                    <h3 style="font-family:Verdana, Geneva, Tahoma, sans-serif;color:#fff;font-size: 36px;">Hỗ trợ dự án
+                    </h3>
+                    <h5 style="margin-top: 20px;">Quyên góp ngay bên dưới</h5>
+                </div>
+                <div style="clear:left"></div>
+                <hr style="color: #fff;height: 2px;">
+                <form action="{% url 'charge' project.pk %}" method="post" id="payment-form">
+                    {% csrf_token %}
+                    <div class="form-field-12">
+                        <label for="amount">Chọn mức quyên góp cho dự án {{ project.name }}:</label>
+                        <br>
+                        <br>
+                        <select required name="amount" class="form-select" aria-label="Default select example"
+                            id="amount">
+                            <option selected value="10">$10 --- Trở thành người ủng hộ và góp phần tạo ra dự án này
+                            </option>
+                            <option value="25">$25 --- Giúp đỡ dự án, và nhận được những lợi ích từ chúng tôi</option>
+                            <option value="60">$60 --- Trở thành thành viên đóng góp tích cực của dự án</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-top: 5px; float: left; margin-right: 1%; width: 50%;">
+                        <input required type="text" name="nickname" class="form-control" placeholder="Nickname..." value="{{user.username}}">
+                    </div>
+
+                    <div class="form-field-6" style="margin-top: 5px; width: 49%; float:left">
+                        <input required type="text" name="email" class="form-control" placeholder="email..." value="{{user.email}}">
+                    </div>
+                    <div style="clear: both;"></div>
+                    <br>
+                    <div class="form-row">
+                        <label for="card-element">
+                            Mã thẻ thanh toán
+                        </label>
+                        <div id="card-element">
+                            <div id="card-errors" role="alert"></div>
+                        </div>
+                    </div>
+                    <hr style="color: #fff;height: 2px;">
+                    <input class="btn btn-success" style="margin-bottom: 20px;width: 100%;font-size: 20px;background-color: #10a195;"
+                        type="submit" value="Thanh toán" name="">
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- payment section -->
+</div>
+<div style="clear:both;"></div>
+
+<script>
+    var stripe = Stripe('pk_test_51K1hYGJjxVS8lJWobq0sTFwGEb344hNs4XRolyTMYT5f2tp5B44CtbRqVOLAgdYNdyB8Rklygu3aMAB3UY67s0we00wOKpyO9F');
+    var elements = stripe.elements();
+    var style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
+            }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    };
+
+    var card = elements.create('card', { style: style });
+
+    card.mount('#card-element');
+
+    card.addEventListener('change', function (event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function (result) {
+            if (result.error) {
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                stripeTokenHandler(result.token);
+            }
+        });
+    });
+
+    function stripeTokenHandler(token) {
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        form.submit();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block active2 %}active{% endblock %}
+{% block title %}Khám phá dự án{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/project.css' %}">{% endblock %}
+{% block content %}
+<div class='container'>
+    <br />
+    <div class="row my-5">
+        {% if projects.count > 0 %}
+        <h1 class="text-center mid-text col-6-centered">Các dự án thuộc thể loại {{from}}</h1>
+        {% else %}
+        <h1 class="text-center mid-text col-6-centered">Không có dự án nào được tìm thấy</h1>
+        {% endif %}
+    </div>
+    <br />
+    <div class="row"></div>
+    {% for project in projects %}
+    <div class="col-lg-4">
+        <img class="thumbnail" src="{{ project.images_of_project.all.0.image.url }}"
+            style="width:100%; object-fit: cover;">
+        <div class="box-element project">
+            <h6><strong><a href="{% url 'project-detail' project.pk %}">{{ project.name }}</a></strong></h6>
+            <hr>
+            <p><small>Bởi: {{ project.user }}</small></p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}

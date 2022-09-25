@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block active4 %}active{% endblock %}
+{% block title %}Thông tin tài khoản{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">{% endblock %}
+{% block content %}
+<div class="row my-3 p-3">
+    <h1 style="margin-left: 7%;">Thông tin tài khoản của {{user.username}}</h1>
+</div>
+<form action="{% url 'profile' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container">
+        <div class="row">
+            <!-- profile section -->
+            <div class="col-12 col-xl-4">
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="card border-light text-center p-0">
+                            <div class="card-body pb-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" style="margin-bottom: 25px;" fill="currentColor"
+                                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                                    <path fill-rule="evenodd"
+                                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                                </svg>
+                                <h4 class="h3">{{ profile.user.username }}</h4>
+                                <h4 class="font-weight-normal">{{ profile.user.get_full_name }}</h4>
+                                <h5 class="font-weight-normal">
+                                    {{ request.user.email }}
+                                </h5>
+                                <p class="text-gray mb-4">{{ profile.address|default:'' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- profile section -->
+            <!-- profile detail section -->
+            <div class="col-12 col-xl-8">
+                <div class="card card-body bg-white border-light shadow-sm mb-4">
+                    <h2 class="h5 mb-4">Thông tin tài khoản</h2>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div>
+                                <label for="first_name">Họ</label>
+                                <input name="first_name" class="form-control" id="first_name" type="text"
+                                    placeholder="Nhập họ của bạn" value="{{ profile.user.first_name }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div>
+                                <label for="last_name">Tên</label>
+                                <input name="last_name" class="form-control" id="last_name" type="text"
+                                    placeholder="Nhập tên của bạn" value="{{ profile.user.last_name }}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input name="email" class="form-control" id="email" type="email"
+                                    placeholder="name@company.com" value="{{ profile.user.email }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="phone">Số điện thoại</label>
+                                <input name="phone" class="form-control" id="phone" type="number"
+                                    placeholder="Nhập số điện thoại" value="{{ profile.phone }}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="h5 my-4">Địa chỉ sinh sống</h2>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="address">Địa chỉ</label>
+                            <input name="address" class="form-control" id="address" type="text"
+                                placeholder="Nhập địa chỉ của bạn" value="{{ profile.address|default:'' }}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="city">Thành phố</label>
+                            <input name="city" class="form-control" id="city" type="text"
+                                placeholder="Nhập thành phố của bạn" value="{{ profile.city|default:'' }}" required>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                    </div>
+                </div>
+            </div>
+            <!-- profile detail section -->
+        </div>
+</form>
+
+</div>
+
+{% endblock %}

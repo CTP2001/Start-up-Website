@@ -1,0 +1,31 @@
+.container{
+    width: 80%;
+}
+
+.description{
+    text-align: justify;
+    font-weight: bold;
+}
+
+.body{
+    text-align: justify;
+}
+
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+video{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fund{
+    font-weight: bold;
+    text-align: center;
+    font-size: 30px;
+}
+

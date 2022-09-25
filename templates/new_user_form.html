@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Đăng ký{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="block-css">
+    <div class="container">
+        <div class="col-7">
+            <div class="card card-body bg-white border-light shadow-sm mb-4">
+                <h1>Đăng ký tài khoản</h1>
+                <hr class="mt-0 mb-4">
+                <form action="." method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.username|as_crispy_field }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password1|as_crispy_field }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.password2|as_crispy_field }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.email|as_crispy_field }}
+                    </div>
+
+                    <p>
+                        <button type="summit" class="btn btn-primary">Đăng ký</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

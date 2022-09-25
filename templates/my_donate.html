@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block active2 %}active{% endblock %}
+{% block title %}Thông tin quyên góp của tôi{% endblock %}
+{% block content %}
+<div class='container'>
+    <br />
+    <div class="row my-5">
+        {% if payments.count > 0 %}
+        <h1 class="text-center mid-text col-6-centered">Lịch sử quyên góp của bạn</h1>
+        {% else %}
+        <h1 class="text-center mid-text col-6-centered">Bạn chưa có lần quyên góp nào</h1>
+        {% endif %}
+    </div>
+    <br />
+    <div class="card card-body bg-white border-light shadow-sm mb-4">
+        <table>
+            <tr style="color: #086b42;">
+                <th>Thời gian</th>
+                <th>Dự án được quyên góp</th>
+                <th style="text-align: center;">Số tiền quyên góp</th>
+            </tr>
+            {% for payment in payments %}
+            <tr >
+                <td>{{payment.date}}</td>
+                <td>{{payment.project.name}}</td>
+                <td style="text-align: center;">${{payment.fund_support}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+    <div style="clear: both;"></div>
+</div>
+</div>
+{% endblock %}

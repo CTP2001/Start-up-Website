@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Tạo dự án thành công{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/create_user_ok2.css' %}">{% endblock %}
+{% block content %}
+<div class="notification">
+    <div class="noti-img" style="margin-top: 200px;">
+        <img src="{% static 'images/create_user_ok.png' %}" alt="">
+    </div>
+    <div class="text-success1">
+        <p class="text-success">Tạo dự án thành công</p>
+    </div>
+    <div class="text-success2" style="margin-bottom: 210px;">
+        <p class="text-return">Trở lại trang <a class="log-in" href="{% url 'home' %}">Trang chủ</a></p>
+    </div>
+</div>
+{% endblock %}

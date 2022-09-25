@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Hỗ trợ dự án thành công{% endblock %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'css/payment_ok.css' %}">{% endblock %}
+{% block content %}
+<div class="notification">
+    <div class="noti-img" style="margin-top: 200px;">
+        <img src="{% static 'images/create_user_ok.png' %}" alt="">
+    </div>
+    <div class="text-success1">
+        <p class="text-success">Cảm ơn bạn đã đóng góp ${{amount}} cho dự án</p>
+    </div>
+    <div class="text-success2" style="margin-bottom: 200px;">
+        <p class="text-return">Trở lại trang <a class="log-in" href="{% url 'project' %}">xem dự án</a></p>
+    </div>
+</div>
+{% endblock %}

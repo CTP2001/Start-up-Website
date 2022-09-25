@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ project.name }}{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/project_detai.css' %}">{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class='container' style="margin-top: 50px;">
+    <!-- project content section -->
+    <div class="card card-body bg-white border-light shadow-sm mb-4">
+        <div style="padding: 0 20px">
+            <br />
+            <h1>{{ project.name }}</h1>
+            <small>Bởi: {{ project.user }}</small><br />
+            <hr>
+            <p class="description">{{ project.description }}</p>
+            <p class="body">{{ project.body }}</p>
+            <p>Một số hình ảnh về dự án:</p>
+            {% for i in project.images_of_project.all %}
+            <img src="{{ i.image.url }}" width="50%" style="margin-bottom: 10px;">
+            {% endfor %}
+            <br />
+            <p>Video giới thiệu về dự án:</p>
+            <video width="60%" controls>
+                <source src="{{ project.video.url }}">
+            </video>
+            <br />
+            <p class="fund">Mục tiêu cho quỹ đầu tư: ${{ project.fund }}</p>
+            <div class="progress skill-bar">
+                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{ratio}}" aria-valuemin="0"
+                    aria-valuemax="100">
+                </div>
+            </div>
+            <h5 class="crownfunded"
+                style="margin-top: 15px; margin-bottom: 15px;color: rgb(16, 102, 34);text-align: center;">Số
+                tiền dự án đã đạt được: ${{ crowdfunded }}</h5>
+            <div style="margin: 0 auto; width: 176px;">
+                <a href="{% url 'payment' project.pk %}" class="btn btn-outline-primary">Hỗ trợ cho dự án này</a>
+            </div>
+        </div>
+    </div>
+    <!-- project content section -->
+    <!-- comment section -->
+    <div style="padding: 0 40px">
+        {% for comment in project.comments.all %}
+        <h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path fill-rule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                </svg> {{comment.author}}</strong></h4>
+        <h6>
+            <p>{{comment.date}}</p>
+        </h6>
+        <p>{{comment.body|linebreaks}}</p>
+        <hr>
+        {% endfor %}
+        {% if user.username %}
+        <form action="{% url 'project-detail' project.pk %}" method='POST'>
+            {%csrf_token%}
+            {{form.body|as_crispy_field}}
+            <button type="summit" class="btn btn-primary" style="margin-top: 5px;float: right;">Bình luận</button>
+        </form>
+        {% else %}
+        <p><a class="log-in" href="{% url 'login' %}" style="text-decoration: none;">Đăng nhập</a> để tham gia bình
+            luận.
+        </p>
+        {% endif %}
+    </div>
+    <!-- comment section -->
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    // Progress bars
+    $(document).ready(function () {
+        $('.progress .progress-bar').css("width",
+            function () {
+                return $(this).attr("aria-valuenow") + "%";
+            }
+        )
+    });
+</script>
+<div style="clear: both;"></div>
+{% endblock %}

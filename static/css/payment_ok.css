@@ -1,0 +1,45 @@
+img{
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+p{
+    margin: auto;
+    text-align: center;
+}
+
+.notification{
+    width: 355px;
+    margin:auto;
+    margin-top: 170px;
+}
+
+.noti-img{
+    width: 100px;
+    margin:auto;
+}
+
+.text-success1{
+    width: 350px;
+    margin:auto;
+    margin-bottom: 5px;
+}
+
+.text-success2{
+    width: 170px;
+    margin:auto;
+}
+
+.text-success{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.text-return{
+    font-family:sans-serif;
+}
+
+.log-in{
+    text-decoration: none;
+}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Đăng ký thành công{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/create_user_ok.css' %}">{% endblock %}
+{% block content %}
+<div class="notification">
+    <div class="noti-img" style="margin-top: 200px;">
+        <img src="{% static 'images/create_user_ok.png' %}" alt="">
+    </div>
+    <div class="text-success1">
+        <p class="text-success">Đăng ký tài khoản thành công</p>
+    </div>
+    <div class="text-success2">
+        <p class="text-success">Vui lòng đăng nhập để sử dụng tài khoản</p>
+    </div>
+    <div class="text-success3" style="margin-bottom: 200px;">
+        <p class="text-return">Trở lại trang <a class="log-in" href="{% url 'login' %}">Đăng nhập</a></p>
+    </div>
+</div>
+{% endblock %}
